@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:bluebubbles/app/wrappers/stateful_boilerplate.dart';
 import 'package:bluebubbles/helpers/types/constants.dart';
 import 'package:bluebubbles/app/components/custom/custom_cupertino_page_transition.dart';
@@ -20,7 +21,19 @@ class ThemeSwitcher extends StatefulWidget {
             return CustomCupertinoPageTransition(primaryRouteAnimation: animation, child: child, linearTransition: false);
           });
       case Skins.Material:
-        return MaterialPageRoute<T>(builder: builder);
+        return PageRouteBuilder<T>(
+          pageBuilder: (context, animation, secondaryAnimation) => builder.call(context),
+          transitionDuration: const Duration(milliseconds: 400),
+          reverseTransitionDuration: const Duration(milliseconds: 300),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SharedAxisTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.horizontal,
+              child: child,
+            );
+          },
+        );
       case Skins.Samsung:
         return MaterialPageRoute<T>(builder: builder);
       default:

@@ -93,39 +93,43 @@ class _MaterialHeaderState extends CustomState<MaterialHeader, void, Conversatio
                                       // Material You search bar
                                       Padding(
                                         padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10.0),
-                                        child: GestureDetector(
-                                          onTap: () => ns.pushLeft(context, SearchView()),
-                                          child: Container(
-                                            height: 52,
-                                            padding: const EdgeInsets.only(left: 16, right: 4),
-                                            decoration: BoxDecoration(
-                                              color: context.theme.colorScheme.surfaceVariant.withOpacity(
-                                                  ss.settings.windowEffect.value == WindowEffect.disabled ? 1 : 0.7),
-                                              borderRadius: BorderRadius.circular(28),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.search_rounded, color: context.theme.colorScheme.onSurfaceVariant),
-                                                const SizedBox(width: 12),
-                                                Expanded(
-                                                  child: Text(
-                                                    "Search messages",
-                                                    style: context.theme.textTheme.bodyLarge?.copyWith(
-                                                      color: context.theme.colorScheme.onSurfaceVariant,
+                                        child: Material(
+                                          color: context.theme.colorScheme.surfaceVariant.withOpacity(
+                                              ss.settings.windowEffect.value == WindowEffect.disabled ? 1 : 0.7),
+                                          borderRadius: BorderRadius.circular(28),
+                                          child: InkWell(
+                                            onTap: () => ns.pushLeft(context, SearchView()),
+                                            borderRadius: BorderRadius.circular(28),
+                                            child: SizedBox(
+                                              height: 52,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 16, right: 4),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.search_rounded, color: context.theme.colorScheme.onSurfaceVariant),
+                                                    const SizedBox(width: 12),
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Search messages",
+                                                        style: context.theme.textTheme.bodyLarge?.copyWith(
+                                                          color: context.theme.colorScheme.onSurfaceVariant,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () => controller.openCamera(context),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(12),
-                                                    child: Icon(
-                                                      Icons.camera_alt_outlined,
-                                                      color: context.theme.colorScheme.onSurfaceVariant,
+                                                    GestureDetector(
+                                                      behavior: HitTestBehavior.opaque,
+                                                      onTap: () => controller.openCamera(context),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(12),
+                                                        child: Icon(
+                                                          Icons.camera_alt_outlined,
+                                                          color: context.theme.colorScheme.onSurfaceVariant,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
                                           ),
                                         ),

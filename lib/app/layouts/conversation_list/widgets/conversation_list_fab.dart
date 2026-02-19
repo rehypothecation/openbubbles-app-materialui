@@ -139,31 +139,44 @@ class _ConversationListFABState extends CustomState<ConversationListFAB, void, C
                       ? () => controller.openCamera(context) : null,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 9),
-                    child: controller.showMaterialFABText
-                        ? FloatingActionButton.extended(
-                            heroTag: null,
-                            backgroundColor: context.theme.colorScheme.primaryContainer,
-                            icon: Icon(
-                              Icons.edit_outlined,
-                              color: context.theme.colorScheme.onPrimaryContainer,
-                              size: 24,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      switchInCurve: Curves.easeOutCubic,
+                      switchOutCurve: Curves.easeInCubic,
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(
+                          scale: Tween<double>(begin: 0.85, end: 1.0).animate(animation),
+                          child: FadeTransition(opacity: animation, child: child),
+                        );
+                      },
+                      child: controller.showMaterialFABText
+                          ? FloatingActionButton.extended(
+                              key: const ValueKey('extended'),
+                              heroTag: null,
+                              backgroundColor: context.theme.colorScheme.primaryContainer,
+                              icon: Icon(
+                                Icons.edit_outlined,
+                                color: context.theme.colorScheme.onPrimaryContainer,
+                                size: 24,
+                              ),
+                              label: Text(
+                                "New chat",
+                                style: TextStyle(color: context.theme.colorScheme.onPrimaryContainer),
+                              ),
+                              onPressed: () => controller.openNewChatCreator(context),
+                            )
+                          : FloatingActionButton(
+                              key: const ValueKey('compact'),
+                              heroTag: null,
+                              backgroundColor: context.theme.colorScheme.primaryContainer,
+                              onPressed: () => controller.openNewChatCreator(context),
+                              child: Icon(
+                                Icons.edit_outlined,
+                                color: context.theme.colorScheme.onPrimaryContainer,
+                                size: 24,
+                              ),
                             ),
-                            label: Text(
-                              "New chat",
-                              style: TextStyle(color: context.theme.colorScheme.onPrimaryContainer),
-                            ),
-                            onPressed: () => controller.openNewChatCreator(context),
-                          )
-                        : FloatingActionButton(
-                            heroTag: null,
-                            backgroundColor: context.theme.colorScheme.primaryContainer,
-                            onPressed: () => controller.openNewChatCreator(context),
-                            child: Icon(
-                              Icons.edit_outlined,
-                              color: context.theme.colorScheme.onPrimaryContainer,
-                              size: 24,
-                            ),
-                          ),
+                    ),
                   ),
                 ),
               ),
