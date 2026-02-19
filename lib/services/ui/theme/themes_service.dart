@@ -223,7 +223,23 @@ class ThemesService extends GetxService {
   }
   
   Tuple2 getStructsFromData(ThemeData light, ThemeData dark) {
-    return Platform.isWindows ? _applyWindowsAccent(light, dark) : _applyMonet(light, dark);
+    final result = Platform.isWindows ? _applyWindowsAccent(light, dark) : _applyMonet(light, dark);
+    return Tuple2(_applyM3Components(result.item1), _applyM3Components(result.item2));
+  }
+
+  ThemeData _applyM3Components(ThemeData t) {
+    return t.copyWith(
+      dialogTheme: const DialogTheme(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(28)),
+        ),
+      ),
+      popupMenuTheme: const PopupMenuThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+      ),
+    );
   }
 
   Future<ThemeStruct> revertToPreviousDarkTheme() async {
