@@ -137,22 +137,33 @@ class _ConversationListFABState extends CustomState<ConversationListFAB, void, C
                 child: InkWell(
                   onLongPress: ss.settings.cameraFAB.value && !kIsWeb && !kIsDesktop
                       ? () => controller.openCamera(context) : null,
-                  child: Container(
-                    height: 65,
-                    padding: const EdgeInsets.only(right: 4.5, bottom: 9),
-                    child: FloatingActionButton(
-                      backgroundColor: context.theme.colorScheme.primaryContainer,
-                      shape: const CircleBorder(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 2),
-                        child: Icon(
-                          CupertinoIcons.bubble_left,
-                          color: context.theme.colorScheme.onPrimaryContainer,
-                          size: 24,
-                        ),
-                      ),
-                      onPressed: () => controller.openNewChatCreator(context),
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: controller.showMaterialFABText
+                        ? FloatingActionButton.extended(
+                            heroTag: null,
+                            backgroundColor: context.theme.colorScheme.primaryContainer,
+                            icon: Icon(
+                              Icons.edit_outlined,
+                              color: context.theme.colorScheme.onPrimaryContainer,
+                              size: 24,
+                            ),
+                            label: Text(
+                              "New chat",
+                              style: TextStyle(color: context.theme.colorScheme.onPrimaryContainer),
+                            ),
+                            onPressed: () => controller.openNewChatCreator(context),
+                          )
+                        : FloatingActionButton(
+                            heroTag: null,
+                            backgroundColor: context.theme.colorScheme.primaryContainer,
+                            onPressed: () => controller.openNewChatCreator(context),
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: context.theme.colorScheme.onPrimaryContainer,
+                              size: 24,
+                            ),
+                          ),
                   ),
                 ),
               ),

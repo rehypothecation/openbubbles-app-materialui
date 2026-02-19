@@ -117,11 +117,11 @@ class MaterialHeader extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.only(top: kIsDesktop ? 20 : 0),
           child: PopupMenuButton<int>(
             color: context.theme.colorScheme.properSurface,
-            shape: ss.settings.skin.value != Skins.Material ? const RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(20.0),
+                Radius.circular(16.0),
               ),
-            ) : null,
+            ),
             onSelected: (int value) {
               if (value == 0) {
                 Navigator.of(context).push(
