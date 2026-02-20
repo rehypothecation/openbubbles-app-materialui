@@ -7,6 +7,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:bluebubbles/app/components/custom/custom_error_box.dart';
 import 'package:bluebubbles/helpers/backend/startup_tasks.dart';
+import 'package:bluebubbles/helpers/demo_data.dart';
 import 'package:bluebubbles/helpers/helpers.dart';
 import 'package:bluebubbles/services/network/http_overrides.dart';
 import 'package:bluebubbles/utils/logger/logger.dart';
@@ -73,6 +74,13 @@ Future<Null> initApp(bool bubble, List<String> arguments) async {
       WidgetsFlutterBinding.ensureInitialized();
 
       await StartupTasks.initStartupServices(isBubble: bubble);
+
+      /* ----- DEMO MODE: bypass setup and seed placeholder data ----- */
+      if (isDemoMode && !ss.settings.finishedSetup.value) {
+        ss.settings.finishedSetup.value = true;
+        await ss.saveSettings();
+        DemoData.seed();
+      }
 
       /* ----- RANDOM STUFF INITIALIZATION ----- */
       HttpOverrides.global = BadCertOverride();

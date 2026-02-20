@@ -70,7 +70,7 @@ jobs:
           done
 
       - name: Build APK
-        run: flutter build apk --flavor alpha --debug --target-platform android-arm64
+        run: flutter build apk --flavor alpha --debug --target-platform android-arm64 --dart-define=DEMO_MODE=true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
