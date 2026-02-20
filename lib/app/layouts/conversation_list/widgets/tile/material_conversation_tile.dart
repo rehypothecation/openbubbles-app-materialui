@@ -80,7 +80,7 @@ class _MaterialConversationTileState extends CustomState<MaterialConversationTil
                         .apply(fontSizeFactor: 1.05),
                   );
       }),
-          contentPadding: const EdgeInsets.only(left: 6, right: 16),
+          contentPadding: const EdgeInsets.only(left: 8, right: 8),
           leading: leading,
           trailing: widget.deletedMode ? Builder(builder: (context) {
                   DateTime oldestDeletion = DateTime.now();
@@ -123,7 +123,7 @@ class _MaterialConversationTileState extends CustomState<MaterialConversationTil
     return Obx(() {
       ns.listener.value;
       return AnimatedContainer(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
