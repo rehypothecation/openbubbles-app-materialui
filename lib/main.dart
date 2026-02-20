@@ -632,7 +632,7 @@ class _HomeState extends OptimizedState<Home> with WidgetsBindingObserver, TrayL
               backgroundColor: context.theme.colorScheme.background.themeOpacity(context),
               body: Builder(
                 builder: (BuildContext context) {
-                  if (ss.settings.finishedSetup.value) {
+                  if (ss.settings.finishedSetup.value || isDemoMode) {
                     if (!serverCompatible && kIsWeb) {
                       return const FailureToStart(
                         otherTitle: "Server version too low, please upgrade!",
