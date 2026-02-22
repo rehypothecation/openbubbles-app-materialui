@@ -102,11 +102,11 @@ class MaterialOverflowMenu extends StatelessWidget {
     return PopupMenuButton<int>(
       color: context.theme.colorScheme.properSurface.lightenOrDarken(ss.settings.skin.value == Skins.Samsung ? 20 : 0)
           .withOpacity(ss.settings.windowEffect.value != WindowEffect.disabled ? 0.9 : 1),
-      shape: ss.settings.skin.value != Skins.Material ? const RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(20.0),
+          Radius.circular(16.0),
         ),
-      ) : null,
+      ),
       onSelected: (int value) async {
         if (value == 0) {
           chats.markAllAsRead();

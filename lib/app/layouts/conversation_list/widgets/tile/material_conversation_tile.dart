@@ -39,19 +39,13 @@ class _MaterialConversationTileState extends CustomState<MaterialConversationTil
     final leading = ChatLeading(controller: controller);
     final child = Material(
       color: Colors.transparent,
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(25),
-        bottomLeft: Radius.circular(25),
-      ),
+      borderRadius: BorderRadius.circular(12),
       child: InkWell(
         mouseCursor: MouseCursor.defer,
         onTap: () => controller.onTap(context, widget.deletedMode),
         onSecondaryTapUp: widget.deletedMode ? null : (details) => controller.onSecondaryTap(Get.context!, details),
         onLongPress: widget.deletedMode ? null : controller.onLongPress,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          bottomLeft: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.circular(12),
         child: ListTile(
           mouseCursor: MouseCursor.defer,
           dense: ss.settings.denseChatTiles.value,
@@ -86,7 +80,7 @@ class _MaterialConversationTileState extends CustomState<MaterialConversationTil
                         .apply(fontSizeFactor: 1.05),
                   );
       }),
-          contentPadding: const EdgeInsets.only(left: 6, right: 16),
+          contentPadding: const EdgeInsets.only(left: 8, right: 8),
           leading: leading,
           trailing: widget.deletedMode ? Builder(builder: (context) {
                   DateTime oldestDeletion = DateTime.now();
@@ -129,13 +123,10 @@ class _MaterialConversationTileState extends CustomState<MaterialConversationTil
     return Obx(() {
       ns.listener.value;
       return AnimatedContainer(
-        padding: const EdgeInsets.only(left: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 8),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-          ),
+          borderRadius: BorderRadius.circular(12),
           color: controller.isSelected
               ? context.theme.colorScheme.primaryContainer.withOpacity(0.5)
               : shouldPartialHighlight
@@ -153,10 +144,7 @@ class _MaterialConversationTileState extends CustomState<MaterialConversationTil
                 onTap: () => controller.onTap(context, widget.deletedMode),
                 onSecondaryTapUp: (details) => controller.onSecondaryTap(Get.context!, details),
                 onLongPress: controller.onLongPress,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                   child: Center(child: leading),

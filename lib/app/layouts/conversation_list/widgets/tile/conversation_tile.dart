@@ -569,10 +569,13 @@ class ChatLeadingState extends OptimizedState<ChatLeading> {
                       size: 20,
                     ),
                   ),
-                ) : ContactAvatarGroupWidget(
-                  chat: widget.controller.chat,
-                  size: 40,
-                  editable: false,
+                ) : Hero(
+                  tag: 'avatar-${widget.controller.chat.guid}',
+                  child: ContactAvatarGroupWidget(
+                    chat: widget.controller.chat,
+                    size: 40,
+                    editable: false,
+                  ),
                 ),
               ),
               if (showTypingIndicator)

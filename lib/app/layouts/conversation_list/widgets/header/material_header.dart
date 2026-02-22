@@ -8,7 +8,6 @@ import 'package:bluebubbles/services/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MaterialHeader extends CustomStateful<ConversationListController> {
@@ -29,7 +28,7 @@ class _MaterialHeaderState extends CustomState<MaterialHeader, void, Conversatio
     return Stack(
       children: [
         Obx(() => Container(
-              height: controller.selectedChats.isEmpty ? 100 : null,
+              height: controller.selectedChats.isEmpty ? 130 : null,
               width: ns.width(context),
               color: ss.settings.windowEffect.value == WindowEffect.disabled ? context.theme.colorScheme.properSurface : Colors.transparent,
             )),
@@ -41,78 +40,102 @@ class _MaterialHeaderState extends CustomState<MaterialHeader, void, Conversatio
                       ns.listener.value;
                       return Container(
                         decoration: BoxDecoration(
-                          color: !ns.isAvatarOnly(context) && !showArchived && !showUnknown && !showDeleted ? context.theme.colorScheme.properSurface
-                              .withOpacity(ss.settings.windowEffect.value == WindowEffect.disabled ? 1 : 0.7) : Colors.transparent,
+                          color: !ns.isAvatarOnly(context) && !showArchived && !showUnknown && !showDeleted
+                              ? context.theme.colorScheme.properSurface
+                                  .withOpacity(ss.settings.windowEffect.value == WindowEffect.disabled ? 1 : 0.7)
+                              : Colors.transparent,
                         ),
-                        child: Padding(
-                              padding: const EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  if (ns.isAvatarOnly(context))
-                                    Material(
-                                      color: Colors.transparent,
-                                      shape: const CircleBorder(),
-                                      clipBehavior: Clip.antiAlias,
-                                      child: OverflowMenu(extraItems: true, controller: controller),
+                        child: ns.isAvatarOnly(context)
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  shape: const CircleBorder(),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: OverflowMenu(extraItems: true, controller: controller),
+                                ),
+                              )
+                            : (showArchived || showUnknown || showDeleted)
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () async {
+                                            Navigator.of(context).pop();
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          icon: Icon(
+                                            Icons.arrow_back,
+                                            color: context.theme.colorScheme.properOnSurface,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        HeaderText(controller: controller, fontSize: 20),
+                                      ],
                                     ),
-                                  if (!ns.isAvatarOnly(context))
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18, right: 20),
-                                      child: (!showArchived && !showUnknown && !showDeleted)
-                                          ? SvgPicture.asset(
-                                              'assets/icon/bb-icon.svg',
-                                              width: 26,
-                                              height: 26,
-                                              colorFilter: ColorFilter.mode(context.theme.colorScheme.properOnSurface, BlendMode.srcIn)
-                                          ) : IconButton(
-                                              onPressed: () async {
-                                                Navigator.of(context).pop();
-                                              },
-                                              padding: EdgeInsets.zero,
-                                              icon: Icon(
-                                                Icons.arrow_back,
-                                                color: context.theme.colorScheme.properOnSurface,
+                                  )
+                                : Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // Top row: "Messages" title + overflow menu
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 20.0, right: 4.0, top: 6.0, bottom: 2.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(child: HeaderText(controller: controller, fontSize: 22)),
+                                            const OverflowMenu(),
+                                          ],
+                                        ),
+                                      ),
+                                      // Material You search bar
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10.0),
+                                        child: Material(
+                                          color: context.theme.colorScheme.surfaceVariant.withOpacity(
+                                              ss.settings.windowEffect.value == WindowEffect.disabled ? 1 : 0.7),
+                                          borderRadius: BorderRadius.circular(28),
+                                          child: InkWell(
+                                            onTap: () => ns.pushLeft(context, SearchView()),
+                                            borderRadius: BorderRadius.circular(28),
+                                            child: SizedBox(
+                                              height: 52,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 16, right: 4),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.search_rounded, color: context.theme.colorScheme.onSurfaceVariant),
+                                                    const SizedBox(width: 12),
+                                                    Expanded(
+                                                      child: Text(
+                                                        "Search messages",
+                                                        style: context.theme.textTheme.bodyLarge?.copyWith(
+                                                          color: context.theme.colorScheme.onSurfaceVariant,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      behavior: HitTestBehavior.opaque,
+                                                      onTap: () => controller.openCamera(context),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(12),
+                                                        child: Icon(
+                                                          Icons.camera_alt_outlined,
+                                                          color: context.theme.colorScheme.onSurfaceVariant,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                    ),
-                                  if (!ns.isAvatarOnly(context)) HeaderText(controller: controller, fontSize: 20),
-                                  if (!ns.isAvatarOnly(context) && !showArchived && !showUnknown && !showDeleted)
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () async {
-                                              controller.openCamera(context);
-                                            },
-                                            icon: Icon(
-                                              Icons.camera_alt_outlined,
-                                              color: context.theme.colorScheme.properOnSurface,
-                                            ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 2),
-                                            child: IconButton(
-                                            onPressed: () async {
-                                              ns.pushLeft(
-                                                context,
-                                                SearchView(),
-                                              );
-                                            },
-                                            icon: Icon(
-                                              Icons.search_rounded,
-                                              color: context.theme.colorScheme.properOnSurface,
-                                            ),
-                                          )),
-                                          const OverflowMenu(),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                ],
-                              ),
-                            ),
+                                    ],
+                                  ),
                       );
                     }),
                 )

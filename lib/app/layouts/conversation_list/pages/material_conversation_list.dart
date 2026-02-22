@@ -68,7 +68,7 @@ class _MaterialConversationListState extends OptimizedState<MaterialConversation
         padding: EdgeInsets.only(top: kIsDesktop ? 30 : 0),
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(120),
             child: MaterialHeader(parentController: controller),
           ),
           backgroundColor: backgroundColor,

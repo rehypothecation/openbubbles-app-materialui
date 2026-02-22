@@ -16,6 +16,7 @@ import 'package:bluebubbles/helpers/ui/facetime_helpers.dart';
 import 'package:bluebubbles/main.dart';
 import 'package:bluebubbles/src/rust/api/api.dart' as api;
 import 'package:bluebubbles/src/rust/lib.dart' as lib;
+import 'package:bluebubbles/helpers/demo_data.dart';
 import 'package:bluebubbles/helpers/helpers.dart';
 import 'package:bluebubbles/database/models.dart';
 import 'package:bluebubbles/services/services.dart';
@@ -4742,7 +4743,7 @@ class RustPushService extends GetxService {
           doPoll(data.$2, pollState);
         }
       }
-      if (state == null && ss.settings.finishedSetup.value) {
+      if (state == null && ss.settings.finishedSetup.value && !isDemoMode) {
         ss.settings.finishedSetup.value = false;
         ss.saveSettings();
         try {
@@ -4921,7 +4922,7 @@ class RustPushService extends GetxService {
       prefix = (state.conn, restored.push, state.osConfig, api.decodeIdentity(identity: restored.identity), state.anisette);
     }
 
-    if (setup) {
+    if (setup && !isDemoMode) {
       ss.settings.finishedSetup.value = false;
       ss.saveSettings();
       if (ls.isUiThread) {
